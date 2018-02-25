@@ -1,0 +1,203 @@
+<!--
+0329 est un program pour Baby Name Generator.
+Format : 'Alice!F%$ ' [Alice : prenom, ! : separateur entre prenom et inditification | F : identification gender | '%$ ' : identification split]
+return : https://www.pampers.fr/grossesse/prenoms-de-bebes/trouvez-le-prenom-de-votre-bebe/garcons-prenoms/alice
+Prise en charge :
+-nom avec CAS (à,ï,....).
+-prise en compte des doublons.
+-prise en compte des nom a double gender (eg : alym et alyf).
+-prise en charge des espaces dans les prenoms (eg : jean luc => jean-luc)
+Ricky B.
+-->
+<html>
+    <head>
+        <title>0329</title>
+    </head>
+    <body>
+        <div id='section-info'>
+            <div align='center'>
+                <p>e.g : Alice!F%$ => name : alice, gender : F || Franck!M%$ => name : franck, gender : m</p>
+                <input id='data-text' type='text' style="width:300px" placeholder="Baby name lit ">
+                <input type="text" id="data-url-girl" placeholder="URL Girl" style="width:300px">
+                <input type="text" id="data-url-boy" placeholder="URL Boy" style="width:300px">
+                <div style="margin-top : 15px">
+                    <button onclick="voidmain()">RUN</button>
+                    <button onclick="copyElement(document.getElementById('section-result'))">Copy</button>
+                <div>
+            </div>
+        </div>
+        <!--section nb result-->
+        <div id='section-nb-result' style="margin-top:15px">
+            <span>Total : <i id='section-nb-total-result'></i></span>
+        </div>
+        <!--Section result url-->
+        <div id='section-result'></div>
+        <script>
+            //fonction main
+            const voidmain = ()=>{
+                try{
+                    //creation du tableau//verification des doublons//ajout url//affichage result
+                    display('section-result',prepareDataToDisplay(addUrl(checkDataDouble(checkGender(createTable(document.getElementById('data-text')))),document.getElementById('data-url-boy'),document.getElementById('data-url-girl'))));
+                }
+                catch(error){
+                    console.log(error);
+                    alert('Error || '+error);
+                }
+            }
+
+            //fonction creation du tableau
+            const createTable = (arg)=>{
+                return arg.value.split('$ ');
+            }
+
+            //fonction verification des doublons, si doublon remplace avec null, apres checkGender
+            const checkDataDouble=(arg)=>{
+                for(var idarg=0;idarg<arg.length;idarg++){
+                    for(var idverification=idarg+1;idverification<arg.length;idverification++){
+                        if(arg[idarg]===arg[idverification]){
+                            console.log(arg[idverification]);
+                            arg[idverification]=null;
+                        }
+                    }
+                    if(arg[idarg+1]==null){idarg++}
+                }
+                return arg;
+            }
+
+            //fonction checkgender , cette fonction avant checkdatadouble
+            const checkGender=(arg)=>{
+                for(var idarg=0;idarg<arg.length;idarg++){
+                    var temp_arg='';
+                    var temp_gender='';
+                    if(arg[idarg]!=null){
+                        if(arg[idarg].charAt(arg[idarg].length-2)=='F'){
+                            temp_arg = arg[idarg].replace('F%',' ');
+                        }
+                        if(arg[idarg].charAt(arg[idarg].length-2)=='M'){
+                            temp = arg[idarg].replace('M%',' ');
+                        }
+                        for(var idgender=idarg+1;idgender<arg.length;idgender++){
+                            if(arg[idgender]!=null){
+                                if(arg[idgender].charAt(arg[idgender].length-2)=='F'){
+                                    var temp_gender = arg[idgender].replace('F%',' ');
+                                }
+                                if(arg[idgender].charAt(arg[idgender].length-2)=='M'){
+                                    var temp_gender = arg[idgender].replace('M%',' ');
+                                }
+                                if(temp_arg===temp_gender){
+                                    arg[idarg]=temp_arg+'fF%';
+                                    arg[idgender]=temp_gender+'mM%';
+                                    var temp_space_idarg=arg[idarg].replace(' ','');
+                                    var temp_space_idgender=arg[idgender].replace(' ','');
+                                    arg[idarg]=temp_space_idarg;
+                                    arg[idgender]=temp_space_idgender;
+                                }
+                            }
+                        }
+                    }
+                }
+                return arg
+            }
+
+            //fonction d'ajout d'url + calcul total M and F
+            const addUrl=(arg, urlboy, urlgirl)=>{
+                var total_m = 0;
+                var total_f = 0;
+                for(var idarg=0;idarg<arg.length;idarg++){
+                    if(arg[idarg]!=null){
+                        if(arg[idarg].charAt(arg[idarg].length - 2)=='F'){
+                            var temp = arg[idarg].replace('F%',' ');
+                            arg[idarg]=urlgirl.value+temp;
+                            total_f++;
+                        }
+                        if(arg[idarg].charAt(arg[idarg].length - 2)=='M'){
+                            var temp=arg[idarg].replace('M%',' ');
+                            arg[idarg]=urlboy.value+temp;
+                            total_m++;
+                        }
+                    }
+                }
+                display('section-nb-total-result', total_f+total_m);
+                return arg;
+            }
+
+            //fonction verification des CAS
+            //init list CAS
+            const initListCAS = () => {
+                var list=[
+                    ['à','a'],['á','a'],['â','a'],['ä','a'],['æ','a'],['ã','a'],['å','a'],['ā','a'],
+                    ['è','e'],['é','e'],['ê','e'],['ë','e'],['ē','e'],['ė','e'],['ę','e'],
+                    ['ÿ','y'],
+                    ['û','u'],['ü','u'],['ù','u'],['ú','u'],['ū','u'],
+                    ['î','i'],['ï','i'],['í','i'],['į','i'],['ī','i'],['ì','i'],
+                    ['ô','o'],['ö','o'],['ò','o'],['ó','o'],['œ','o'],['ø','o'],['ō','o'],['õ','o'],
+                    [' ','-']
+                    ];
+                return list;
+            }
+            //fonction verificaiton des CAS
+            //fontion verification CAS
+            const checkCAS=(arg)=>{
+                var list_cas=initListCAS();
+                for(var idlist_cas=0;idlist_cas<list_cas.length;idlist_cas++){
+                    var temp = arg.search(list_cas[idlist_cas][0]);
+                    if(temp>-1)return true;
+                }
+                return false;
+            }
+            //fonction verification des CAS
+            //fonction remplace CAS
+            const changeCAS=(arg)=>{
+                var list_cas=initListCAS();
+                var temp_arg='';
+                for(var idarg=0;idarg<arg.length;idarg++){
+                    var temp_char=arg.charAt(idarg);
+                    for(var idcas=0;idcas<list_cas.length;idcas++){
+                        if(temp_char==list_cas[idcas][0]){
+                            temp_char=list_cas[idcas][1];
+                        }
+                    }
+                    temp_arg=temp_arg+temp_char;
+                }
+                return temp_arg;
+            }
+
+            //fonction preparation result pour l'affichage
+            const prepareDataToDisplay=(arg)=>{
+                var data_result=' ';
+                for(var idarg=0;idarg<arg.length;idarg++){
+                    if(arg[idarg]!=null && checkCAS(arg[idarg])==false)data_result=data_result+'<br/>'+arg[idarg].toLowerCase().slice(0,-2);
+                    if(arg[idarg]!=null && checkCAS(arg[idarg])==true)data_result=data_result+'<br/>'+changeCAS(arg[idarg].toLowerCase()).slice(0,-2);
+                }
+                return data_result;
+            }
+            
+            //fonction affichage
+            const display=(id,arg)=>{
+                document.getElementById(id).innerHTML=arg;
+            }
+
+            //fonction copy 
+            const copyElement=(el)=>{
+                var body = document.body, range, sel;
+                if (document.createRange && window.getSelection) {
+                    range = document.createRange();
+                    sel = window.getSelection();
+                    sel.removeAllRanges();
+                    try {
+                        range.selectNodeContents(el);
+                        sel.addRange(range);
+                    } catch (e) {
+                        range.selectNode(el);
+                        sel.addRange(range);
+                    }
+                } else if (body.createTextRange) {
+                    range = body.createTextRange();
+                    range.moveToElementText(el);
+                    range.select();
+                }
+                document.execCommand("Copy");
+            }
+        </script>
+    </body>
+</html>

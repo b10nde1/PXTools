@@ -1,0 +1,59 @@
+<html>
+<head>
+  <title>Chronos</title>
+</head>
+<body>
+  <div id="result-urls">
+    <input type="button" value="copier" onclick="copyElement(document.getElementById('list-urls'))"><br><br>
+    <input type='file' accept='txt/*' onchange='openFile()'><br>
+    <p>Nb Total URLS : <i id="total-count"></i></p>
+    <p>Liste : </p>
+    <div id="list-urls">
+    </div>
+  </div>
+  <div id="code-to-scan" style="visibility:hidden">
+  </div>
+  <script>
+      function openFile() {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function(){
+          var dataURL = reader.result;
+          document.getElementById("code-to-scan").innerHTML=dataURL;
+          scanDocument('simple-link');
+        };
+        var result = reader.readAsText(input.files[0]);
+      };
+    function scanDocument(arg){
+      var totalElements=document.getElementsByClassName(arg).length;
+      var arrayElements="";
+      for(var compteur=0;compteur<totalElements;compteur++){
+        var urlFromHtml=document.getElementsByClassName(arg)[compteur].getAttribute('href');
+        if(urlFromHtml!='javascript:void(0)')arrayElements=arrayElements+"<p>"+urlFromHtml+"</p>";
+      }
+      document.getElementById("total-count").innerHTML=totalElements-1;
+      document.getElementById("list-urls").innerHTML=arrayElements;
+    }
+    function copyElement(el){
+        var body = document.body, range, sel;
+        if (document.createRange && window.getSelection) {
+            range = document.createRange();
+            sel = window.getSelection();
+            sel.removeAllRanges();
+            try {
+                range.selectNodeContents(el);
+                sel.addRange(range);
+            } catch (e) {
+                range.selectNode(el);
+                sel.addRange(range);
+            }
+        } else if (body.createTextRange) {
+            range = body.createTextRange();
+            range.moveToElementText(el);
+            range.select();
+        }
+        document.execCommand("Copy");
+    }
+  </script>
+</body>
+</html>
