@@ -25,17 +25,39 @@ Ricky B.
                     <button onclick="copyElement(document.getElementById('section-result'))">Copy</button>
                 <div>
                 <div style="margin-top:15px">
-                    <button onclick="showAll()">All</button>
-                    <button onclick="showGirls()">Girls</button>
-                    <button onclick="showBoys()">Boys</button>
+                    <button onclick="showAll()">All <i id='section-nb-total-result'></i></button>
+                    <button onclick="showGirls()">Girls <i id='section-nb-total-result-Girl'></i></button>
+                    <button onclick="showBoys()">Boys <i id='section-nb-total-result-Boy'></i></button>
+                </div>
+                <div style="margin-top : 15px">
+                    <button onclick="showLetter('a')">a <i id="filter-arg-letter-a"></i></button>
+                    <button onclick="showLetter('b')">b <i id="filter-arg-letter-b"></i></button>
+                    <button onclick="showLetter('c')">c <i id="filter-arg-letter-c"></i></button>
+                    <button onclick="showLetter('d')">d <i id="filter-arg-letter-d"></i></button>
+                    <button onclick="showLetter('e')">e <i id="filter-arg-letter-e"></i></button>
+                    <button onclick="showLetter('f')">f <i id="filter-arg-letter-f"></i></button>
+                    <button onclick="showLetter('g')">g <i id="filter-arg-letter-g"></i></button>
+                    <button onclick="showLetter('h')">h <i id="filter-arg-letter-h"></i></button>
+                    <button onclick="showLetter('i')">i <i id="filter-arg-letter-i"></i></button>
+                    <button onclick="showLetter('j')">j <i id="filter-arg-letter-j"></i></button>
+                    <button onclick="showLetter('k')">k <i id="filter-arg-letter-k"></i></button>
+                    <button onclick="showLetter('l')">l <i id="filter-arg-letter-l"></i></button>
+                    <button onclick="showLetter('m')">m <i id="filter-arg-letter-m"></i></button>
+                    <button onclick="showLetter('n')">n <i id="filter-arg-letter-n"></i></button>
+                    <button onclick="showLetter('o')">o <i id="filter-arg-letter-o"></i></button>
+                    <button onclick="showLetter('p')">p <i id="filter-arg-letter-p"></i></button>
+                    <button onclick="showLetter('q')">q <i id="filter-arg-letter-q"></i></button>
+                    <button onclick="showLetter('r')">r <i id="filter-arg-letter-r"></i></button>
+                    <button onclick="showLetter('s')">s <i id="filter-arg-letter-s"></i></button>
+                    <button onclick="showLetter('t')">t <i id="filter-arg-letter-t"></i></button>
+                    <button onclick="showLetter('u')">u <i id="filter-arg-letter-u"></i></button>
+                    <button onclick="showLetter('v')">v <i id="filter-arg-letter-v"></i></button>
+                    <button onclick="showLetter('w')">w <i id="filter-arg-letter-w"></i></button>
+                    <button onclick="showLetter('x')">x <i id="filter-arg-letter-x"></i></button>
+                    <button onclick="showLetter('y')">y <i id="filter-arg-letter-y"></i></button>
+                    <button onclick="showLetter('z')">z <i id="filter-arg-letter-z"></i></button>
                 </div>
             </div>
-        </div>
-        <!--section nb result-->
-        <div id='section-nb-result' style="margin-top:15px">
-            <span>Total : <i id='section-nb-total-result'></i></span>
-            <span>Total G : <i id='section-nb-total-result-Girl'></i></span>
-            <span>Total B : <i id='section-nb-total-result-Boy'></i></span>
         </div>
         <!--Section result url-->
         <div id='section-result'></div>
@@ -58,6 +80,9 @@ Ricky B.
             const createTable = (arg)=>{
                 return arg.value.split('$ ');
             }
+
+            //init list letter
+            const initLetter=()=>{return ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];}
 
             //fonction verification des doublons, si doublon remplace avec null, apres checkGender
             const checkDataDouble=(arg)=>{
@@ -175,17 +200,25 @@ Ricky B.
 
             //fonction add id pour filter by gender
             const addIdFilterGender=(arg,genderB,genderG)=>{
-                if(arg.search(genderG.value)>-1)return 'Gender-Girl';
-                else return 'Gender-Boy';
+                if(arg.search(genderG.value)>-1)return 'gender-girl';
+                else return 'gender-boy';
             }
 
             //fonction add id pour filter pour letter
             const addIdFilterLetter=(arg,url)=>{
                 var temp_url='';
+                var letter=initLetter();
                 for(var idurl=0;idurl<url.length;idurl++){
                     if(arg.search(url[idurl].value)>-1)temp_url=arg.replace(url[idurl].value,'');
+                    //rend le total pour chaque letter
+                    /*for(var idletter=0;idletter<letter.length;idletter++){
+                        if(temp_url.charAt(0).toLocaleLowerCase()==letter[idletter]){
+                            var actual=document.getElementById('filter-arg-letter-'+letter[idletter]).value;
+                            document.getElementById('filter-arg-letter-'+letter[idletter]).innerHTML=actual+1;
+                        }
+                    }*/
                 }
-                return 'letter-'+temp_url.charAt(0);
+                return 'letter-'+temp_url.charAt(0).toLocaleLowerCase();
             }
 
             //fonction preparation result pour l'affichage
@@ -227,8 +260,8 @@ Ricky B.
 
             //function filter - show et hidde
             const showAll=()=>{
-                showElement('Gender-Boy');
-                showElement('Gender-Girl');
+                showElement('gender-boy');
+                showElement('gender-girl');
             }
             const hiddeElement=(arg)=>{
                 var get_arg = document.getElementsByClassName(arg);
@@ -243,12 +276,26 @@ Ricky B.
                 }
             }
             const showGirls=()=>{
-                hiddeElement('Gender-Boy');
-                showElement('Gender-Girl');
+                hiddeElement('gender-boy');
+                showElement('gender-girl');
             }
             const showBoys=()=>{
-                hiddeElement('Gender-Girl');
-                showElement('Gender-Boy');
+                hiddeElement('gender-girl');
+                showElement('gender-boy');
+            }
+            //fonction list letter to hidde 
+            const hiddeOtherLetter=(arg)=>{
+                var list= initLetter();
+                for(var idlist=0;idlist<list.length;idlist++){
+                    if(list[idlist]!==arg){
+                        hiddeElement('letter-'+list[idlist]);
+                    }
+                }
+            }
+            //fonction show letter
+            const showLetter =(arg)=>{
+                showElement('letter-'+arg);
+                hiddeOtherLetter(arg);
             }
         </script>
     </body>
