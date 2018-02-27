@@ -34,6 +34,8 @@ Ricky B.
         <!--section nb result-->
         <div id='section-nb-result' style="margin-top:15px">
             <span>Total : <i id='section-nb-total-result'></i></span>
+            <span>Total G : <i id='section-nb-total-result-Girl'></i></span>
+            <span>Total B : <i id='section-nb-total-result-Boy'></i></span>
         </div>
         <!--Section result url-->
         <div id='section-result'></div>
@@ -125,7 +127,8 @@ Ricky B.
                     }
                 }
                 display('section-nb-total-result', total_f+total_m);
-                console.log('Total M : '+total_m+' || Total F : '+total_f);
+                display('section-nb-total-result-Girl', total_f);
+                display('section-nb-total-result-Boy', total_m);
                 return arg;
             }
 
