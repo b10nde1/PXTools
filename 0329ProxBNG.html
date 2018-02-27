@@ -16,7 +16,7 @@ Ricky B.
     <body>
         <div id='section-info'>
             <div align='center'>
-                <p>e.g : Alice!F%$ => name : alice, gender : F || Franck!M%$ => name : franck, gender : m</p>
+                <p>e.g : Alice!F%$ => name for URL : alice, gender : F || Franck!M%$ => name : franck, gender : m</p>
                 <input id='data-text' type='text' style="width:300px" placeholder="Baby name lit ">
                 <input type="text" id="data-url-girl" placeholder="URL Girl" style="width:300px">
                 <input type="text" id="data-url-boy" placeholder="URL Boy" style="width:300px">
@@ -224,7 +224,7 @@ Ricky B.
                 for(var idarg=0;idarg<arg.length;idarg++){
                     if(arg[idarg]!=null && checkCAS(arg[idarg])==false){
                         var tempLetter=addIdFilterLetter(arg[idarg],[tagB,tagG]);
-                        data_result=data_result+'<br/><i class="'+addIdFilterGender(arg[idarg],tagB,tagG)+' '+tempLetter[0]+'">'+arg[idarg].toLowerCase().slice(0,-2)+'</i>';
+                        data_result=data_result+'<br/><i id="baby-name-id-'+idarg+'" class="'+addIdFilterGender(arg[idarg],tagB,tagG)+' '+tempLetter[0]+'">'+arg[idarg].toLowerCase().slice(0,-2)+'</i>';
                         for(var idletter=0;idletter<letter.length;idletter++){
                             if(letter[idletter]==tempLetter[1]){
                                 nbLetter[idletter]++;
@@ -233,7 +233,7 @@ Ricky B.
                     }
                     if(arg[idarg]!=null && checkCAS(arg[idarg])==true){
                         var tempLetter=addIdFilterLetter(arg[idarg],[tagB,tagG]);
-                        data_result=data_result+'<br/><i class="'+addIdFilterGender(arg[idarg],tagB,tagG)+' '+tempLetter[0]+'">'+changeCAS(arg[idarg].toLowerCase()).slice(0,-2)+'</i>';
+                        data_result=data_result+'<br/><i id="baby-name-id-'+idarg+'" class="'+addIdFilterGender(arg[idarg],tagB,tagG)+' '+tempLetter[0]+'">'+changeCAS(arg[idarg].toLowerCase()).slice(0,-2)+'</i>';
                         for(var idletter=0;idletter<letter.length;idletter++){
                             if(letter[idletter]==tempLetter[1]){
                                 nbLetter[idletter]++;
