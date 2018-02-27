@@ -210,25 +210,47 @@ Ricky B.
                 var letter=initLetter();
                 for(var idurl=0;idurl<url.length;idurl++){
                     if(arg.search(url[idurl].value)>-1)temp_url=arg.replace(url[idurl].value,'');
-                    //rend le total pour chaque letter
-                    /*for(var idletter=0;idletter<letter.length;idletter++){
-                        if(temp_url.charAt(0).toLocaleLowerCase()==letter[idletter]){
-                            var actual=document.getElementById('filter-arg-letter-'+letter[idletter]).value;
-                            document.getElementById('filter-arg-letter-'+letter[idletter]).innerHTML=actual+1;
-                        }
-                    }*/
                 }
-                return 'letter-'+temp_url.charAt(0).toLocaleLowerCase();
+                return ['letter-'+temp_url.charAt(0).toLocaleLowerCase(),temp_url.charAt(0).toLocaleLowerCase()];
             }
+            
+            //fonction init tableau de 0 pour le calcule nb letter
+            const initTableOf0 = () =>{return res =['0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'];}
 
             //fonction preparation result pour l'affichage
             const prepareDataToDisplay=(arg,tagB,tagG)=>{
                 var data_result=' ';
+                var letter=initLetter();var nbLetter=initTableOf0();
                 for(var idarg=0;idarg<arg.length;idarg++){
-                    if(arg[idarg]!=null && checkCAS(arg[idarg])==false)data_result=data_result+'<br/><i class="'+addIdFilterGender(arg[idarg],tagB,tagG)+' '+addIdFilterLetter(arg[idarg],[tagB,tagG])+'">'+arg[idarg].toLowerCase().slice(0,-2)+'</i>';
-                    if(arg[idarg]!=null && checkCAS(arg[idarg])==true)data_result=data_result+'<br/><i class="'+addIdFilterGender(arg[idarg],tagB,tagG)+' '+addIdFilterLetter(arg[idarg],[tagB,tagG])+'">'+changeCAS(arg[idarg].toLowerCase()).slice(0,-2)+'</i>';
+                    if(arg[idarg]!=null && checkCAS(arg[idarg])==false){
+                        var tempLetter=addIdFilterLetter(arg[idarg],[tagB,tagG]);
+                        data_result=data_result+'<br/><i class="'+addIdFilterGender(arg[idarg],tagB,tagG)+' '+tempLetter[0]+'">'+arg[idarg].toLowerCase().slice(0,-2)+'</i>';
+                        for(var idletter=0;idletter<letter.length;idletter++){
+                            if(letter[idletter]==tempLetter[1]){
+                                nbLetter[idletter]++;
+                            }
+                        }
+                    }
+                    if(arg[idarg]!=null && checkCAS(arg[idarg])==true){
+                        var tempLetter=addIdFilterLetter(arg[idarg],[tagB,tagG]);
+                        data_result=data_result+'<br/><i class="'+addIdFilterGender(arg[idarg],tagB,tagG)+' '+tempLetter[0]+'">'+changeCAS(arg[idarg].toLowerCase()).slice(0,-2)+'</i>';
+                        for(var idletter=0;idletter<letter.length;idletter++){
+                            if(letter[idletter]==tempLetter[1]){
+                                nbLetter[idletter]++;
+                            }
+                        }
+                    }
                 }
+                prepareNbLetter(nbLetter);
                 return data_result;
+            }
+
+            //fonction affichage nb de bebe per letter 
+            const prepareNbLetter=(arg)=>{
+                var letter=initLetter();
+                for(var idarg=0;idarg<arg.length;idarg++){
+                    display('filter-arg-letter-'+letter[idarg],arg[idarg]);
+                }
             }
             
             //fonction affichage
