@@ -36,8 +36,10 @@ Ricky B.
             //fonction main
             const voidmain = ()=>{
                 try{
+                    console.log('start');
                     //creation du tableau//verification des doublons//ajout url//affichage result
-                    display('section-result',prepareDataToDisplay(addUrl(checkDataDouble(checkGender(createTable(document.getElementById('data-text')))),document.getElementById('data-url-boy'),document.getElementById('data-url-girl'))));
+                    display('section-result',prepareDataToDisplay(addUrl(checkDataDouble(checkGender(createTable(document.getElementById('data-text')))),document.getElementById('data-url-boy'),document.getElementById('data-url-girl')),document.getElementById('data-url-boy'),document.getElementById('data-url-girl')));
+                    console.log('Completed');
                 }
                 catch(error){
                     console.log(error);
@@ -55,7 +57,7 @@ Ricky B.
                 for(var idarg=0;idarg<arg.length;idarg++){
                     for(var idverification=idarg+1;idverification<arg.length;idverification++){
                         if(arg[idarg]===arg[idverification]){
-                            console.log(arg[idverification]);
+                            console.log('Doublon : '+arg[idverification]);
                             arg[idverification]=null;
                         }
                     }
@@ -118,6 +120,7 @@ Ricky B.
                     }
                 }
                 display('section-nb-total-result', total_f+total_m);
+                console.log('Total M : '+total_m+' || Total F : '+total_f);
                 return arg;
             }
 
@@ -162,12 +165,18 @@ Ricky B.
                 return temp_arg;
             }
 
+            //fonction add id pour filter by gender
+            const addIdFilterGender=(arg,genderB,genderG)=>{
+                if(arg.search(genderG.value)>-1)return 'G';
+                else return 'B';
+            }
+
             //fonction preparation result pour l'affichage
-            const prepareDataToDisplay=(arg)=>{
+            const prepareDataToDisplay=(arg,tagB,tagG)=>{
                 var data_result=' ';
                 for(var idarg=0;idarg<arg.length;idarg++){
-                    if(arg[idarg]!=null && checkCAS(arg[idarg])==false)data_result=data_result+'<br/>'+arg[idarg].toLowerCase().slice(0,-2);
-                    if(arg[idarg]!=null && checkCAS(arg[idarg])==true)data_result=data_result+'<br/>'+changeCAS(arg[idarg].toLowerCase()).slice(0,-2);
+                    if(arg[idarg]!=null && checkCAS(arg[idarg])==false)data_result=data_result+'<br/><i data-gender="'+addIdFilterGender(arg[idarg],tagB,tagG)+'">'+arg[idarg].toLowerCase().slice(0,-2)+'</i>';
+                    if(arg[idarg]!=null && checkCAS(arg[idarg])==true)data_result=data_result+'<br/><i data-gender="'+addIdFilterGender(arg[idarg],tagB,tagG)+'">'+changeCAS(arg[idarg].toLowerCase()).slice(0,-2)+'</i>';
                 }
                 return data_result;
             }
