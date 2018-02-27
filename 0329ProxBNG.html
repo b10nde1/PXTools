@@ -179,12 +179,21 @@ Ricky B.
                 else return 'Gender-Boy';
             }
 
+            //fonction add id pour filter pour letter
+            const addIdFilterLetter=(arg,url)=>{
+                var temp_url='';
+                for(var idurl=0;idurl<url.length;idurl++){
+                    if(arg.search(url[idurl].value)>-1)temp_url=arg.replace(url[idurl].value,'');
+                }
+                return 'letter-'+temp_url.charAt(0);
+            }
+
             //fonction preparation result pour l'affichage
             const prepareDataToDisplay=(arg,tagB,tagG)=>{
                 var data_result=' ';
                 for(var idarg=0;idarg<arg.length;idarg++){
-                    if(arg[idarg]!=null && checkCAS(arg[idarg])==false)data_result=data_result+'<br/><i class="'+addIdFilterGender(arg[idarg],tagB,tagG)+'">'+arg[idarg].toLowerCase().slice(0,-2)+'</i>';
-                    if(arg[idarg]!=null && checkCAS(arg[idarg])==true)data_result=data_result+'<br/><i class="'+addIdFilterGender(arg[idarg],tagB,tagG)+'">'+changeCAS(arg[idarg].toLowerCase()).slice(0,-2)+'</i>';
+                    if(arg[idarg]!=null && checkCAS(arg[idarg])==false)data_result=data_result+'<br/><i class="'+addIdFilterGender(arg[idarg],tagB,tagG)+' '+addIdFilterLetter(arg[idarg],[tagB,tagG])+'">'+arg[idarg].toLowerCase().slice(0,-2)+'</i>';
+                    if(arg[idarg]!=null && checkCAS(arg[idarg])==true)data_result=data_result+'<br/><i class="'+addIdFilterGender(arg[idarg],tagB,tagG)+' '+addIdFilterLetter(arg[idarg],[tagB,tagG])+'">'+changeCAS(arg[idarg].toLowerCase()).slice(0,-2)+'</i>';
                 }
                 return data_result;
             }
