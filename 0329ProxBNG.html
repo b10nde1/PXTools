@@ -24,6 +24,11 @@ Ricky B.
                     <button onclick="voidmain()">RUN</button>
                     <button onclick="copyElement(document.getElementById('section-result'))">Copy</button>
                 <div>
+                <div style="margin-top:15px">
+                    <button onclick="showAll()">All</button>
+                    <button onclick="showGirls()">Girls</button>
+                    <button onclick="showBoys()">Boys</button>
+                </div>
             </div>
         </div>
         <!--section nb result-->
@@ -167,16 +172,16 @@ Ricky B.
 
             //fonction add id pour filter by gender
             const addIdFilterGender=(arg,genderB,genderG)=>{
-                if(arg.search(genderG.value)>-1)return 'G';
-                else return 'B';
+                if(arg.search(genderG.value)>-1)return 'Gender-Girl';
+                else return 'Gender-Boy';
             }
 
             //fonction preparation result pour l'affichage
             const prepareDataToDisplay=(arg,tagB,tagG)=>{
                 var data_result=' ';
                 for(var idarg=0;idarg<arg.length;idarg++){
-                    if(arg[idarg]!=null && checkCAS(arg[idarg])==false)data_result=data_result+'<br/><i data-gender="'+addIdFilterGender(arg[idarg],tagB,tagG)+'">'+arg[idarg].toLowerCase().slice(0,-2)+'</i>';
-                    if(arg[idarg]!=null && checkCAS(arg[idarg])==true)data_result=data_result+'<br/><i data-gender="'+addIdFilterGender(arg[idarg],tagB,tagG)+'">'+changeCAS(arg[idarg].toLowerCase()).slice(0,-2)+'</i>';
+                    if(arg[idarg]!=null && checkCAS(arg[idarg])==false)data_result=data_result+'<br/><i class="'+addIdFilterGender(arg[idarg],tagB,tagG)+'">'+arg[idarg].toLowerCase().slice(0,-2)+'</i>';
+                    if(arg[idarg]!=null && checkCAS(arg[idarg])==true)data_result=data_result+'<br/><i class="'+addIdFilterGender(arg[idarg],tagB,tagG)+'">'+changeCAS(arg[idarg].toLowerCase()).slice(0,-2)+'</i>';
                 }
                 return data_result;
             }
@@ -206,6 +211,32 @@ Ricky B.
                     range.select();
                 }
                 document.execCommand("Copy");
+            }
+
+            //function filter - show et hidde
+            const showAll=()=>{
+                showElement('Gender-Boy');
+                showElement('Gender-Girl');
+            }
+            const hiddeElement=(arg)=>{
+                var get_arg = document.getElementsByClassName(arg);
+                for(var idarg=0;idarg<get_arg.length;idarg++){
+                    get_arg[idarg].style.display= "none";
+                }
+            }
+            const showElement=(arg)=>{
+                var get_arg = document.getElementsByClassName(arg);
+                for(var idarg=0;idarg<get_arg.length;idarg++){
+                    get_arg[idarg].style.display= "";
+                }
+            }
+            const showGirls=()=>{
+                hiddeElement('Gender-Boy');
+                showElement('Gender-Girl');
+            }
+            const showBoys=()=>{
+                hiddeElement('Gender-Girl');
+                showElement('Gender-Boy');
             }
         </script>
     </body>
