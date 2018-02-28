@@ -82,7 +82,7 @@ Ricky B.
             }
 
             //init list letter
-            const initLetter=()=>{return ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];}
+            const initLetter=()=>{return [...'abcdefghijklmnopqrstuvwxyz'];}
 
             //fonction verification des doublons, si doublon remplace avec null, apres checkGender
             const checkDataDouble=(arg)=>{
@@ -215,7 +215,7 @@ Ricky B.
             }
             
             //fonction init tableau de 0 pour le calcule nb letter
-            const initTableOf0 = () =>{return res =['0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'];}
+            const initTableOf0 = () =>{return [...'00000000000000000000000000'];}
 
             //fonction preparation result pour l'affichage
             const prepareDataToDisplay=(arg,tagB,tagG)=>{
