@@ -86,7 +86,7 @@ Ricky B.
 
             //fonction verification des doublons, si doublon remplace avec null, apres checkGender
             const checkDataDouble=(arg)=>{
-                for(var idarg=0;idarg<arg.length;idarg++){
+                for(var idarg of arg){
                     for(var idverification=idarg+1;idverification<arg.length;idverification++){
                         if(arg[idarg]===arg[idverification]){
                             console.log('Doublon : '+arg[idverification]);
