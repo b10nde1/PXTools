@@ -114,10 +114,10 @@ Ricky B.
                         for(var idgender=idarg+1;idgender<arg.length;idgender++){
                             if(arg[idgender]!=null){
                                 if(arg[idgender].charAt(arg[idgender].length-2)=='F'){
-                                    var temp_gender = arg[idgender].replace('F%',' ');
+                                    temp_gender = arg[idgender].replace('F%',' ');
                                 }
                                 if(arg[idgender].charAt(arg[idgender].length-2)=='M'){
-                                    var temp_gender = arg[idgender].replace('M%',' ');
+                                    temp_gender = arg[idgender].replace('M%',' ');
                                 }
                                 if(temp_arg===temp_gender){
                                     arg[idarg]=temp_arg+'fF%';
