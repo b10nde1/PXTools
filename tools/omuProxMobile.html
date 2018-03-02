@@ -1,8 +1,42 @@
+<!--
+omu est un program pour mobile.
+Ouvre tous les urls fournis.
+format : url1!%!url2!%!... || separator !%!
+-->
 <html>
     <head>
         <title>Open Multiple URL</title>
     </head>
     <body>
-        <input type="text" id="list-url"  />
+        <i>format : url1!%!url2!%!... || separator !%!</i>
+        <input type="text" id="list-url"/>
+        <button onclick="voidmain()">RUN</button>
+        <script>
+            //fonction run
+            const voidmain=()=>{
+                try {
+                    console.log('Start');
+                    openUrl(initListOfUrl(document.getElementById('list-url')));
+                    console.log('completed');
+                }
+                catch(error){
+                    console.log(error);
+                    alert('Error || '+error);
+                }
+            }
+
+            //fonction init list des urls
+            const initListOfUrl = arg => {
+                return arg.value.split('!%!');
+            }
+
+            //fonction ouvre chaque url
+            const openUrl=arg=>{
+                for(var idarg=0;idarg<arg.length;idarg++){
+                    window.open (arg[idarg],"mywindow","status=1");
+                }
+            } 
+
+        </script>
     </body>
 </html>
